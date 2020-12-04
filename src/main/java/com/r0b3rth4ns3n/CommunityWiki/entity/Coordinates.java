@@ -1,4 +1,4 @@
-package com.r0b3rth4ns3n.CommunityWiki.entities;
+package com.r0b3rth4ns3n.CommunityWiki.entity;
 
 public class Coordinates {
     private Integer latitude;
