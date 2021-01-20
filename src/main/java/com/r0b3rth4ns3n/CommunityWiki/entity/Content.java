@@ -15,6 +15,7 @@ public class Content implements Serializable {
     private String title;
     private Coordinates coordinates;
     private String text;
+    //@Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime timestamp;
     @OneToMany(mappedBy="content")
     private List<Feedback> feedback;

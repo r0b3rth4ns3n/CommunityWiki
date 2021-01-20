@@ -12,7 +12,7 @@ public class Entry implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private String entryId;
-    @OneToMany(mappedBy="entry")
+    @OneToMany(mappedBy="entry") //fetch type?
     private List<Content> content;
 
     public Entry() {

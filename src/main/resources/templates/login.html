@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="fragments :: head"/>
+
+    <body>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col">
+
+                    <div class="card m-4">
+
+                        <div class="card-header">
+
+                            <a class="navbar-brand link-dark" href="/">CommunityWiki</a>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form th:action="@{/login}" method="post">
+
+                                <div class="form-floating mb-3">
+
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="x">
+                                    <label for="username">username</label>
+
+
+                                </div>
+
+                                <div class="form-floating mb-3">
+
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="x">
+                                    <label for="password">password</label>
+
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary">log in</button>
+                                <span>or</span>
+                                <a href="register" class="link-secondary">register</a>
+
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>

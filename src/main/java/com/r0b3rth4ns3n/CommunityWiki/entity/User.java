@@ -1,17 +1,19 @@
 package com.r0b3rth4ns3n.CommunityWiki.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private String userID;
-    private String pseudonym;
+    private String username;
     private String password;
     @OneToMany(mappedBy="user")
     private List<Content> content;
@@ -19,11 +21,12 @@ public class User implements Serializable {
     private List<Feedback> feedback;
 
     public User() {
-
+        // must be random
+        username = "r";
     }
 
-    public User(String pseudonym, String password) {
-        this.pseudonym = pseudonym;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
         this.content = new ArrayList<>();
         this.feedback = new ArrayList<>();
@@ -34,13 +37,52 @@ public class User implements Serializable {
         if (o==null) return false;
         if (this.getClass()!=o.getClass()) return false;
         final User other = (User) o;
-        return Objects.equals(this.userID,other.userID);
+        return Objects.equals(this.username,other.username);
     }
 
     @Override
     public int hashCode() {
-        if (this.userID==null) return 0;
-        return this.userID.hashCode();
+        if (this.username==null) return 0;
+        return this.username.hashCode();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
