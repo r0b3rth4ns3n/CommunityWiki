@@ -1,29 +1,35 @@
 package com.r0b3rth4ns3n.CommunityWiki.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Entry implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private String entryId;
+
     @OneToMany(mappedBy="entry") //fetch type?
     private List<Content> content;
 
+    // constructor
     public Entry() {
-
-    }
-
-    public Entry(String title, Coordinates coordinates, String text, OffsetDateTime timestamp, User user) {
+        this.entryId = UUID.randomUUID().toString();
         this.content = new ArrayList<>();
-        this.content.add(new Content(title,coordinates,text,timestamp,user,this));
     }
 
+    public Entry(Content content) {
+        this();
+        this.content.add(content);
+    }
+
+    // override
     @Override
     public boolean equals(Object o) {
         if (o==null) return false;
@@ -36,6 +42,20 @@ public class Entry implements Serializable {
     public int hashCode() {
         if (this.entryId==null) return 0;
         return this.entryId.hashCode();
+    }
+
+    // get
+    public String getEntryId() {
+        return entryId;
+    }
+
+    public Content getContent() {
+        return content.get(0);
+    }
+
+    // set
+    public void addContent(Content content) {
+        this.content.add(content);
     }
 
 }

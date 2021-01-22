@@ -6,14 +6,16 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Content implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private String contentId;
     private String title;
     private Coordinates coordinates;
+    @Lob // better?
     private String text;
     //@Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime timestamp;
@@ -24,20 +26,13 @@ public class Content implements Serializable {
     @ManyToOne
     private Entry entry;
 
+    // constructor
     public Content() {
-
-    }
-
-    public Content(String title, Coordinates coordinates, String text, OffsetDateTime timestamp, User user, Entry entry) {
-        this.title = title;
-        this.coordinates = coordinates;
-        this.text = text;
-        this.timestamp = timestamp;
+        this.contentId = UUID.randomUUID().toString();
         this.feedback = new ArrayList<>();
-        this.user = user;
-        this.entry = entry;
     }
 
+    // override
     @Override
     public boolean equals(Object o) {
         if (o==null) return false;
@@ -52,4 +47,45 @@ public class Content implements Serializable {
         return this.contentId.hashCode();
     }
 
+    // get
+    public String getContentId() {
+        return contentId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    // set
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setEntry(Entry entry) {
+        this.entry = entry;
+    }
 }

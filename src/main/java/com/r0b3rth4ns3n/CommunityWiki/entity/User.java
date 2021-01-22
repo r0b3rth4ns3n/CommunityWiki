@@ -20,10 +20,7 @@ public class User implements Serializable, UserDetails {
     @OneToMany
     private List<Feedback> feedback;
 
-    public User() {
-        // must be random
-        username = "r";
-    }
+    public User() { }
 
     public User(String username, String password) {
         this.username = username;

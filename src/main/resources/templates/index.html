@@ -8,23 +8,34 @@
 
         <nav th:replace="fragments :: nav"/>
 
-        <div class="container">
+        <div class="container-fluid">
 
-            <div class="row row-cols-1 row-cols-md-3 g-4" data-masonry='{"percentPosition": true }'>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 g-4 m-0 mb-4"
+                 data-masonry='{"percentPosition": true}'>
 
                 <!-- / -->
-                <div class="col-sm-6">
+                <div th:each="entry : ${entries}" class="col">
 
-                    <div class="card h-100 m-4">
-                        <div class="card-header">
-                            Featured
-                        </div>
+                    <div class="card">
+
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                            <p class="card-text">Some the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+
+                            <h4 th:text="${entry.content.title}" class="card-title"></h4>
+
+                            <p th:text="${entry.content.text}" class="card-text"></p>
+
+                            <a th:href="${'https://www.google.com/maps/place/' + entry.content.coordinates.latitude + ',' + entry.content.coordinates.longitude}"
+                               th:text="${' ' + entry.content.coordinates.latitude + ', ' + entry.content.coordinates.longitude}"
+                               class="btn btn-outline-primary bi-geo-alt-fill"></a>
+
                         </div>
+
+                        <div class="card-footer text-center">
+
+                            <a href="#" class="link-secondary">history</a>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -34,7 +45,9 @@
 
         </div>
 
+        <!-- masonry -->
         <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+        <!-- / -->
 
     </body>
 

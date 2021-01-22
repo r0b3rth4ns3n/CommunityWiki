@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="fragments :: head"/>
+
+    <body>
+
+        <nav th:replace="fragments :: nav"/>
+
+        <div class="container-fluid p-0">
+
+            <form th:action="@{/save(id=${content.contentId})}" th:object="${content}" method="post" class="m-4">
+
+                <!-- title -->
+                <div class="form-floating mb-4">
+
+                    <input th:field="*{title}" type="text" class="form-control" id="title" placeholder="title" required>
+                    <label for="title">title</label>
+
+                </div>
+                <!-- / -->
+
+                <!-- latitude -->
+                <div class="form-floating mb-4">
+
+                    <input th:field="*{coordinates.latitude}" type="number" step=any class="form-control" id="latitude" placeholder="latitude" required>
+                    <label for="latitude">latitude</label>
+
+                </div>
+                <!-- / -->
+
+                <!-- longitude -->
+                <div class="form-floating mb-4">
+
+                    <input th:field="*{coordinates.longitude}" type="number" step=any class="form-control" id="longitude" placeholder="longitude" required>
+                    <label for="longitude">longitude</label>
+
+                </div>
+                <!-- / -->
+
+                <!-- text -->
+                <div class="form-floating mb-4">
+
+                    <textarea th:field="*{text}" class="form-control" placeholder="text" id="text" style="height: 250px" required></textarea>
+                    <label for="text">text</label>
+
+                </div>
+                <!-- / -->
+
+                <button type="submit" class="btn btn-outline-primary">save</button>
+
+            </form>
+
+        </div>
+
+    </body>
+
+</html>
