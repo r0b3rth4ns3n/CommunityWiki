@@ -17,13 +17,13 @@
 
 	<groupId>com.r0b3rth4ns3n</groupId>
 	<artifactId>CommunityWiki</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>CommunityWiki</name>
 	<description>a simple wiki for local communities</description>
 
 	<properties>
 
-		<java.version>15</java.version>
+		<java.version>14</java.version>
 
 	</properties>
 
@@ -66,6 +66,12 @@
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>de.othr.doj34392</groupId>
+			<artifactId>advertisement-provider</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -73,8 +79,27 @@
 		<plugins>
 
 			<plugin>
+
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+
+				<configuration>
+					<mainClass>com.r0b3rth4ns3n.CommunityWiki.CommunityWiki</mainClass>
+					<executable>true</executable>
+				</configuration>
+
+				<executions>
+
+					<execution>
+
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+
+					</execution>
+
+				</executions>
+
 			</plugin>
 
 		</plugins>

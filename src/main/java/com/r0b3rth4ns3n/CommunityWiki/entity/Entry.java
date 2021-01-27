@@ -49,8 +49,16 @@ public class Entry implements Serializable {
         return entryId;
     }
 
-    public Content getContent() {
-        return content.get(0);
+    public Content getTopContent() {
+        Content top = content.get(0);
+        for (Content content : content) {
+            if(content.getFeedback() > top.getFeedback()) top = content;
+        }
+        return top;
+    }
+
+    public List<Content> getAllContent() {
+        return content;
     }
 
     // set

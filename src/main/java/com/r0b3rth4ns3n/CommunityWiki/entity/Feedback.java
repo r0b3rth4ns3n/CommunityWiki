@@ -3,20 +3,24 @@ package com.r0b3rth4ns3n.CommunityWiki.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Feedback implements Serializable {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private String feedbackId;
+
     @Enumerated(EnumType.STRING)
     private Vote vote;
+
     private String comment;
+
     @ManyToOne
     private Content content;
 
     public Feedback() {
-
+        this.feedbackId = UUID.randomUUID().toString();
     }
 
     public Feedback(Vote vote, String comment, Content content) {
@@ -37,6 +41,20 @@ public class Feedback implements Serializable {
     public int hashCode() {
         if (this.feedbackId==null) return 0;
         return this.feedbackId.hashCode();
+    }
+
+    // get
+    public Vote getVote() {
+        return vote;
+    }
+
+    // set
+    public void setVote(Vote vote) {
+        this.vote = vote;
+    }
+
+    public void setContent(Content content) {
+        this.content = content;
     }
 
 }

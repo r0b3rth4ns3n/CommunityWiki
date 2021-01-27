@@ -18,37 +18,40 @@ public class EntryController {
     @Autowired
     private EntryService entryService;
 
-    @RequestMapping("/")
-    public String index(Model model) {
-        model.addAttribute("entries",entryService.getAll());
-        return "index";
+    @RequestMapping("/entry")
+    public String e_n_t_r_y(Model model, @RequestParam("id") String entryId) {
+        model.addAttribute(entryService.findEntry(entryId));
+        return "entry";
     }
 
     @RequestMapping("/new")
     public String n_e_w(Model model) {
-        model.addAttribute(new Content());
+        Content c = new Content();
+        c.setEntry(new Entry());
+        model.addAttribute(c);
         return "content";
     }
 
     @RequestMapping("/improve")
-    public String e_d_i_t(Model model, @RequestParam("id") String entryId) {
-        Entry entry = entryService.findEntry(entryId);
-        model.addAttribute(entry.getContent());
+    public String e_d_i_t(Model model, @RequestParam("id") String contentId) {
+        model.addAttribute(entryService.findContent(contentId));
         return "content";
     }
 
     @RequestMapping("/save")
-    public String s_a_v_e(@RequestParam("id") String contentId, @ModelAttribute("content") Content content, Principal principal) {
-        if(entryService.existsContent(contentId)) entryService.edit_entry(content);
+    public String s_a_v_e(@RequestParam("id") String entryId, @ModelAttribute("content") Content content, Principal principal) {
+        if(entryService.existsEntry(entryId)) {
+            entryService.editEntry(entryId,content,principal.getName());
+        }
         else entryService.newEntry(content, principal.getName());
 
-        System.out.println(contentId);
+        System.out.println(entryId);
         System.out.println(content.getTitle());
         System.out.println(content.getCoordinates().getLatitude());
         System.out.println(content.getCoordinates().getLongitude());
         System.out.println(content.getText());
 
-        return "index";
+        return "forward:/";
     }
 
 }

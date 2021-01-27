@@ -82,4 +82,7 @@ public class User implements Serializable, UserDetails {
         this.password = password;
     }
 
+    public void addFeedback(Feedback feedback) {
+        this.feedback.add(feedback);
+    }
 }

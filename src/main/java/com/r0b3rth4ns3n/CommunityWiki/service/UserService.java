@@ -34,6 +34,10 @@ public class UserService implements UserDetailsService {
         return "successfully registered";
     }
 
+    public void save(User u) {
+        userRepo.save(u);
+    }
+
     // find
     public User find_user(String username) {
         return userRepo.findById(username).orElse(null);

@@ -23,7 +23,7 @@ public class Content implements Serializable {
     private List<Feedback> feedback;
     @ManyToOne
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Entry entry;
 
     // constructor
@@ -64,11 +64,33 @@ public class Content implements Serializable {
         return text;
     }
 
+    public int getFeedback() {
+        int sum = 0;
+        for(Feedback f : feedback) {
+            if(f.getVote() == Vote.UPVOTE) sum++;
+            else sum --;
+        }
+        return sum;
+    }
+
     public User getUser() {
         return user;
     }
 
+    public Entry getEntry() {
+        return entry;
+    }
+
     // set
+
+    public void addFeedback(Feedback feedback) {
+        this.feedback.add(feedback);
+    }
+
+    public void setContentId(String contentId) {
+        this.contentId = contentId;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

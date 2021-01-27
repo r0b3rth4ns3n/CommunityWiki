@@ -23,11 +23,11 @@ public class UserController {
             Model model
     ) {
         if (username.isBlank() || password.isBlank()) {
-            model.addAttribute("feedback","please choose a username and password");
-            return "register";
+            model.addAttribute("feedback","please choose both a username and a password");
+        } else {
+            String feedback = userService.register(username, password);
+            model.addAttribute("feedback", feedback);
         }
-        String feedback = userService.register(username,password);
-        model.addAttribute("feedback",feedback);
         return "register";
     }
 

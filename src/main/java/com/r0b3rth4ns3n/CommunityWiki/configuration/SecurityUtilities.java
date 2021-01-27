@@ -9,7 +9,7 @@ import java.security.SecureRandom;
 @Configuration
 public class SecurityUtilities {
 
-    private static String salt = "community-wiki-salt";
+    private static final String salt = "community-wiki-salt";
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

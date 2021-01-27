@@ -24,9 +24,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {
             "/",
             "/login",
-            "/forgotPassword",
-            "/register/user",
-            "/register"
+            "/register",
+            "/entry",
+            "/search"
     };
 
     @Override
@@ -38,21 +38,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                     .loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/account")
-                    .failureUrl("/login?error")
+                    .defaultSuccessUrl("/") // account
+                    .failureUrl("/login")
                 .and()
-                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")) .logoutSuccessUrl("/?logout")
+                    .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/")
                     .deleteCookies("remember-me")
                     .permitAll()
                 .and()
                     .rememberMe();
-
+        http
+                .csrf().ignoringAntMatchers("/api/**");
+        http
+                .httpBasic();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
-                .passwordEncoder(securityUtilities.passwordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(securityUtilities.passwordEncoder());
     }
 
 }
