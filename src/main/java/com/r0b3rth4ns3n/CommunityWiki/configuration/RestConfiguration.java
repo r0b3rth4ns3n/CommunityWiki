@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class RestConfiguration {
 
     @Bean
-    public RestTemplate createRestTemplate(RestTemplateBuilder builder) {
+    public RestTemplate getRestTemplate(RestTemplateBuilder builder) {
         return builder.build();
     }
 

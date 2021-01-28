@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RootController {
 
     @Autowired
-    private EntryService entryService;
+    private ExternalContentService externalContentService;
 
     @Autowired
-    private ExternalContentService externalContentService;
+    private EntryService entryService;
 
     @RequestMapping("/")
     public String i_n_d_e_x(Model model) {
         model.addAttribute("advertisement",externalContentService.getAdvertisement());
-        model.addAttribute("entries",entryService.getAll());
+        model.addAttribute("entries",entryService.getAllEntries());
         return "index";
     }
 
     @RequestMapping("/search")
-    public String s_e_a_r_c_h(Model model, @ModelAttribute("what") String what) {
+    public String s_e_a_r_c_h(Model model, @ModelAttribute("query") String query) {
         model.addAttribute("advertisement",externalContentService.getAdvertisement());
-        model.addAttribute("entries",entryService.search(what));
+        model.addAttribute("entries",entryService.search(query));
         return "index";
     }
 

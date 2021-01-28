@@ -7,10 +7,9 @@ import com.r0b3rth4ns3n.CommunityWiki.repository.ContentRepository;
 import com.r0b3rth4ns3n.CommunityWiki.repository.EntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,67 +24,68 @@ public class EntryService {
     @Autowired
     private UserService userService;
 
-    // new
+    @Transactional
     public String newEntry(Content content, String username) {
-        // new
+        // new entry
         Entry entry = entryRepo.save(new Entry());
-        // set missing content
-        content.setUser(userService.find_user(username));
-
+        // get user
+        User user = userService.findUser(username);
+        // set
         content.setEntry(entry);
-
+        content.setUser(user);
+        // add
         entry.addContent(content);
-
-        System.out.println(content.getEntry().getEntryId());
-
+        user.addContent(content);
         // save
-        contentRepo.save(content);
-
+        content = contentRepo.save(content);
+        user = userService.saveUser(user);
+        // return id of entry
         return entry.getEntryId();
     }
 
-    // edit
-    public void editEntry(String entryId, Content content,String username) {
+    @Transactional
+    public String improveEntry(String entryId, Content content, String username) {
+        // get
         Entry entry = entryRepo.findById(entryId).get();
-        content.setUser(userService.find_user(username));
+        User user = userService.findUser(username);
+        // set
+        content.newContentId();
         content.setEntry(entry);
+        content.setUser(user);
+        // add
         entry.addContent(content);
-        contentRepo.save(content);
-        entryRepo.save(entry);
+        user.addContent(content);
+        // save
+        content = contentRepo.save(content);
+        user = userService.saveUser(user);
+        entry = entryRepo.save(entry);
+        // return id of entry
+        return entry.getEntryId();
     }
 
-    public void save(Content c) {
-        contentRepo.save(c);
+    public Content saveContent(Content content) {
+        return contentRepo.save(content);
     }
 
-    // find
-    public Entry findEntry(String id) {
-        return entryRepo.findById(id).orElse(null);
+    public Entry findEntry(String entryId) {
+        return entryRepo.findById(entryId).orElse(null);
     }
 
-    public Content findContent(String id) {
-        return contentRepo.findById(id).orElse(null);
+    public Content findContent(String contentId) {
+        return contentRepo.findById(contentId).orElse(null);
     }
 
-    // exists
-    public boolean existsEntry(String id) {
-        return entryRepo.existsById(id);
+    public boolean existsEntry(String entryId) {
+        return entryRepo.existsById(entryId);
     }
 
-    public boolean existsContent(String id) {
-        return contentRepo.existsById(id);
+    public Iterable<Entry> getAllEntries() {
+        return entryRepo.findAll();
     }
 
-    // get all
-    public Iterable<Entry> getAll() {
-        Iterable<Entry> entries;
-        entries = entryRepo.findAll();
-        return entries;
-    }
-
-    public Iterable<Entry> search(String s) {
+    public Iterable<Entry> search(String query) {
         Set<Entry> entries = new HashSet<>();
-        for(Content content :  contentRepo.findByTitleContainingOrTextContaining(s,s)) {
+        for (Content content :  contentRepo.findByTitleContainingOrTextContaining(query,query)) {
             entries.add(content.getEntry());
         }
         return entries;

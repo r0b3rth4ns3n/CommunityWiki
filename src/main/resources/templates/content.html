@@ -10,7 +10,7 @@
 
         <div class="container-fluid p-0">
 
-            <form th:action="@{/save(id=${content.getEntry.entryId})}" th:object="${content}" method="post" class="m-4">
+            <form th:action="${'/save/' + content.entry.entryId}" th:object="${content}" method="post" class="m-4">
 
                 <!-- title -->
                 <div class="form-floating mb-4">

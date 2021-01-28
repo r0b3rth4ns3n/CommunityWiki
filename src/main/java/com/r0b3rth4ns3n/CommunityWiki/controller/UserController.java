@@ -14,20 +14,14 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/login")
-    public String login() { return "login"; }
+    public String login() {
+        return "login";
+    }
 
     @RequestMapping("/register")
-    public String register(
-            @ModelAttribute("username") String username,
-            @ModelAttribute("password") String password,
-            Model model
-    ) {
-        if (username.isBlank() || password.isBlank()) {
-            model.addAttribute("feedback","please choose both a username and a password");
-        } else {
-            String feedback = userService.register(username, password);
-            model.addAttribute("feedback", feedback);
-        }
+    public String register(Model model, @ModelAttribute("username") String username, @ModelAttribute("password") String password) {
+        if (username.isBlank() || password.isBlank()) model.addAttribute("feedback","please choose a username and a password");
+        else model.addAttribute("feedback",userService.register(username,password));
         return "register";
     }
 

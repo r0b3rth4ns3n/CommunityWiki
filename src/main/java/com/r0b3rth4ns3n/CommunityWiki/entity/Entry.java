@@ -13,10 +13,10 @@ import java.util.UUID;
 public class Entry implements Serializable {
 
     @Id
-    private String entryId;
+    private final String entryId;
 
-    @OneToMany(mappedBy="entry") //fetch type?
-    private List<Content> content;
+    @OneToMany(mappedBy="entry")
+    private final List<Content> content;
 
     // constructor
     public Entry() {
@@ -24,12 +24,7 @@ public class Entry implements Serializable {
         this.content = new ArrayList<>();
     }
 
-    public Entry(Content content) {
-        this();
-        this.content.add(content);
-    }
-
-    // override
+    // overrides
     @Override
     public boolean equals(Object o) {
         if (o==null) return false;
@@ -50,18 +45,16 @@ public class Entry implements Serializable {
     }
 
     public Content getTopContent() {
-        Content top = content.get(0);
-        for (Content content : content) {
-            if(content.getFeedback() > top.getFeedback()) top = content;
-        }
+        Content top = this.content.get(0);
+        for (Content content : this.content) if (content.computeFeedback() > top.computeFeedback()) top = content;
         return top;
     }
 
     public List<Content> getAllContent() {
-        return content;
+        return this.content;
     }
 
-    // set
+    // add
     public void addContent(Content content) {
         this.content.add(content);
     }

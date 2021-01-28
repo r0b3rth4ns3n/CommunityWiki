@@ -12,7 +12,7 @@ public class SecurityUtilities {
     private static final String salt = "community-wiki-salt";
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(15, new SecureRandom(salt.getBytes()));
     }
 

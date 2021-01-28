@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("my-user-service")
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -20,26 +20,20 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findById(username)
-                .orElseThrow( () -> {
-                    throw new UsernameNotFoundException(username);
-                });
-        return user;
+        return userRepo.findById(username).orElseThrow( () -> { throw new UsernameNotFoundException(username); } );
     }
 
     public String register(String username, String password) {
-        if(userRepo.findById(username).isPresent()) return "username already in use";
-        User user = new User(username,passwordEncoder.encode(password));
-        userRepo.save(user);
+        if (userRepo.findById(username).isPresent()) return "username already in use";
+        userRepo.save(new User(username,passwordEncoder.encode(password)));
         return "successfully registered";
     }
 
-    public void save(User u) {
-        userRepo.save(u);
+    public User saveUser(User u) {
+        return userRepo.save(u);
     }
 
-    // find
-    public User find_user(String username) {
+    public User findUser(String username) {
         return userRepo.findById(username).orElse(null);
     }
 

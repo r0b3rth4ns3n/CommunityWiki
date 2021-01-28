@@ -1,6 +1,7 @@
 package com.r0b3rth4ns3n.CommunityWiki.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,7 +17,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userService;
+    @Qualifier("my-user-service")
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private SecurityUtilities securityUtilities;
@@ -25,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/",
             "/login",
             "/register",
-            "/entry",
+            "/entry/**",
             "/search"
     };
 
@@ -55,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(securityUtilities.passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(securityUtilities.getPasswordEncoder());
     }
 
 }

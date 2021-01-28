@@ -2,7 +2,6 @@ package com.r0b3rth4ns3n.CommunityWiki.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,26 +12,31 @@ public class Content implements Serializable {
 
     @Id
     private String contentId;
+
     private String title;
+
     private Coordinates coordinates;
-    @Lob // better?
+
+    @Lob
     private String text;
-    //@Temporal(TemporalType.TIMESTAMP)
-    private OffsetDateTime timestamp;
+
     @OneToMany(mappedBy="content")
-    private List<Feedback> feedback;
+    private final List<Feedback> feedback;
+
     @ManyToOne
     private User user;
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne
     private Entry entry;
 
     // constructor
     public Content() {
         this.contentId = UUID.randomUUID().toString();
         this.feedback = new ArrayList<>();
+        this.entry = new Entry();
     }
 
-    // override
+    // overrides
     @Override
     public boolean equals(Object o) {
         if (o==null) return false;
@@ -47,50 +51,42 @@ public class Content implements Serializable {
         return this.contentId.hashCode();
     }
 
+    // new
+    public void newContentId() {
+        this.contentId = UUID.randomUUID().toString();
+    }
+
     // get
     public String getContentId() {
-        return contentId;
+        return this.contentId;
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public Coordinates getCoordinates() {
-        return coordinates;
+        return this.coordinates;
     }
 
     public String getText() {
-        return text;
-    }
-
-    public int getFeedback() {
-        int sum = 0;
-        for(Feedback f : feedback) {
-            if(f.getVote() == Vote.UPVOTE) sum++;
-            else sum --;
-        }
-        return sum;
+        return this.text;
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public Entry getEntry() {
-        return entry;
+        return this.entry;
     }
 
-    // set
-
+    // add
     public void addFeedback(Feedback feedback) {
         this.feedback.add(feedback);
     }
 
-    public void setContentId(String contentId) {
-        this.contentId = contentId;
-    }
-
+    // set
     public void setTitle(String title) {
         this.title = title;
     }
@@ -110,4 +106,12 @@ public class Content implements Serializable {
     public void setEntry(Entry entry) {
         this.entry = entry;
     }
+
+    // compute
+    public int computeFeedback() {
+        int sum = 0;
+        for (Feedback feedback : this.feedback) sum += feedback.getValue();
+        return sum;
+    }
+
 }

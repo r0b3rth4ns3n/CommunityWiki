@@ -12,23 +12,31 @@ import java.util.Objects;
 
 @Entity
 public class User implements Serializable, UserDetails {
+
     @Id
     private String username;
+
     private String password;
+
     @OneToMany(mappedBy="user")
-    private List<Content> content;
+    private final List<Content> content;
+
     @OneToMany
-    private List<Feedback> feedback;
+    private final List<Feedback> feedback;
 
-    public User() { }
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    // constructors
+    public User() {
         this.content = new ArrayList<>();
         this.feedback = new ArrayList<>();
     }
 
+    public User(String username, String password) {
+        this();
+        this.username = username;
+        this.password = password;
+    }
+
+    // overrides
     @Override
     public boolean equals(Object o) {
         if (o==null) return false;
@@ -78,11 +86,13 @@ public class User implements Serializable, UserDetails {
         return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    // add
     public void addFeedback(Feedback feedback) {
         this.feedback.add(feedback);
     }
+
+    public void addContent(Content content) {
+        this.content.add(content);
+    }
+
 }

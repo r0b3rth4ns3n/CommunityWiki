@@ -15,6 +15,15 @@
                 <!-- iteration -->
                 <li th:each="content : ${entry.getAllContent}" class="list-group-item p-0">
 
+                    <!-- user -->
+                    <div class="form-floating m-3">
+
+                        <input th:value="${content.user.username}" type="text" class="form-control" id="user" placeholder="user" disabled readonly>
+                        <label for="user">user</label>
+
+                    </div>
+                    <!-- / -->
+
                     <!-- title -->
                     <div class="form-floating m-3">
 
@@ -51,11 +60,24 @@
                     </div>
                     <!-- / -->
 
-                    <a th:href="@{/improve(id=${content.contentId})}"
-                       class="btn btn-outline-primary m-3 mt-0">improve</a>
+                    <!-- feedback -->
+                    <div class="form-floating m-3">
 
-                    <a class="btn btn-outline-success m-3 mt-0 ms-0" th:href="@{/upvote(id=${content.contentId})}">upvote</a>
-                    <a class="btn btn-outline-danger m-3 mt-0 ms-0" href="/improve">downvote</a>
+                        <input th:value="${content.computeFeedback}" type="number" step=any class="form-control" id="feedback" placeholder="feedback" disabled readonly>
+                        <label for="feedback">feedback</label>
+
+                    </div>
+                    <!-- / -->
+
+                    <!-- improve -->
+                    <a th:href="${'/improve/' + entry.entryId + '/' + content.contentId}" class="btn btn-outline-primary m-3 mt-0">improve</a>
+                    <!-- / -->
+
+                    <!-- up / down -->
+                    <a th:href="${'/upvote/' + entry.entryId + '/' + content.contentId}" class="btn btn-outline-success m-3 mt-0 ms-0">upvote</a>
+
+                    <a th:href="${'/downvote/' + entry.entryId + '/' + content.contentId}" class="btn btn-outline-danger m-3 mt-0 ms-0">downvote</a>
+                    <!-- / -->
 
                 </li>
                 <!-- / -->

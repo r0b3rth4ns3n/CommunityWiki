@@ -7,15 +7,24 @@ import java.io.Serializable;
 public class Coordinates implements Serializable {
 
     private Double latitude;
+
     private Double longitude;
+
+    // constructors
+    public Coordinates() { }
+
+    public Coordinates(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     // get
     public Double getLatitude() {
-        return latitude;
+        return this.latitude;
     }
 
     public Double getLongitude() {
-        return longitude;
+        return this.longitude;
     }
 
     // set

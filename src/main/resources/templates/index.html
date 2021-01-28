@@ -10,8 +10,7 @@
 
         <div class="container-fluid">
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 g-4 m-0 mb-4"
-                 data-masonry='{"percentPosition": true}'>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 g-4 m-0 mb-4" data-masonry='{"percentPosition": true}'>
 
                 <!-- iteration -->
                 <div th:each="entry : ${entries}" class="col">
@@ -20,21 +19,28 @@
 
                         <div class="card-body">
 
+                            <!-- title -->
                             <h4 th:text="${entry.getTopContent.title}" class="card-title"></h4>
+                            <!-- / -->
 
+                            <!-- text -->
                             <p th:text="${entry.getTopContent.text}" class="card-text"></p>
+                            <!-- / -->
 
+                            <!-- location -->
                             <a th:href="${'https://www.google.com/maps/place/' + entry.getTopContent.coordinates.latitude + ',' + entry.getTopContent.coordinates.longitude}"
                                th:text="${' ' + entry.getTopContent.coordinates.latitude + ' ' + entry.getTopContent.coordinates.longitude}"
                                class="btn btn-outline-primary bi-geo-alt-fill"
                                target="_blank"></a>
+                            <!-- / -->
 
                         </div>
 
                         <div class="card-footer text-center">
 
-                            <a th:href="@{/entry(id=${entry.entryId})}"
-                               class="link-secondary">see all content</a>
+                            <!-- content -->
+                            <a th:href="${'/entry/' + entry.entryId}" class="link-secondary">content</a>
+                            <!-- / -->
 
                         </div>
 

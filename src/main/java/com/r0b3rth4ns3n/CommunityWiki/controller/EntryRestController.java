@@ -23,16 +23,10 @@ public class EntryRestController {
         Content content = new Content();
         // set title
         content.setTitle(contentDTO.getName());
-        // in the real world the address should be converted to coordinates -> google maps api -> too much for this project though -> instead build fixed coordinates
-        Coordinates coordinates = new Coordinates();
-        coordinates.setLatitude(49.002395);
-        coordinates.setLongitude(12.096254);
-        // set coordinates
-        content.setCoordinates(coordinates);
-        // build text
-        String text = "website: " +  contentDTO.getWebsite() + " phone: " + contentDTO.getPhone();
+        // in the real world the address should be converted to coordinates -> google maps api -> too much for this project though -> use fixed coordinates instead
+        content.setCoordinates(new Coordinates(49.002395,12.096254));
         // set text
-        content.setText(text);
+        content.setText("website: " +  contentDTO.getWebsite() + System.lineSeparator() + "phone: " + contentDTO.getPhone());
         // pass to entry service and return id of new entry
         return entryService.newEntry(content,principal.getName());
     }

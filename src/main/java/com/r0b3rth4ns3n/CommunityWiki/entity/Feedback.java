@@ -9,26 +9,26 @@ import java.util.UUID;
 public class Feedback implements Serializable {
 
     @Id
-    private String feedbackId;
+    private final String feedbackId;
 
     @Enumerated(EnumType.STRING)
     private Vote vote;
 
-    private String comment;
-
     @ManyToOne
     private Content content;
 
+    // constructors
     public Feedback() {
         this.feedbackId = UUID.randomUUID().toString();
     }
 
-    public Feedback(Vote vote, String comment, Content content) {
+    public Feedback(Vote vote, Content content) {
+        this();
         this.vote = vote;
-        this.comment = comment;
         this.content = content;
     }
 
+    // overrides
     @Override
     public boolean equals(Object o) {
         if (o==null) return false;
@@ -44,17 +44,8 @@ public class Feedback implements Serializable {
     }
 
     // get
-    public Vote getVote() {
-        return vote;
-    }
-
-    // set
-    public void setVote(Vote vote) {
-        this.vote = vote;
-    }
-
-    public void setContent(Content content) {
-        this.content = content;
+    public int getValue() {
+        return this.vote.getValue();
     }
 
 }
